@@ -20,7 +20,6 @@ class MaxAirDistHeuristic(HeuristicFunction):
         """
         assert isinstance(self.problem, RelaxedDeliveriesProblem)
         assert isinstance(state, RelaxedDeliveriesState)
-
         raise NotImplemented()  # TODO: remove!
 
 
