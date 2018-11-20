@@ -98,9 +98,16 @@ class RelaxedDeliveriesProblem(GraphProblem):
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
         junction = state_to_expand.current_location
-        for link in junction:
-            successor_state = RelaxedDeliveriesState(link.target, )
-            operator_cost = self.possible_stop_points[link.source].calc_air_distance_from((self.possible_stop_points[link.target]))
+        for link in junction.links:
+            target = None
+            for p in self.possible_stop_points:
+                if p.index == link.target:
+                    target = p
+            assert(target is not None)
+            operator_cost = state_to_expand.current_location.calc_air_distance_from(target)
+            successor_state = RelaxedDeliveriesState(link.target,
+                state_to_expand.dropped_so_far | ({target} if target not in self.gas_stations else {}),
+                state_to_expand.fuel_as_int if target not in self.gas_stations else self.gas_tank_capacity)
             # Yield the successor state and the cost of the operator we used to get this successor.
             yield successor_state, operator_cost
 
