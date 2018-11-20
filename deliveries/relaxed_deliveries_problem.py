@@ -41,7 +41,7 @@ class RelaxedDeliveriesState(GraphProblemState):
         """
         if not isinstance(other, RelaxedDeliveriesState):
             return False
-        return self.current_location == other.current_location and self.dropped_so_far == other.dropped_so_far and self.fuel_as_int() == other.fuel_as_int()
+        return self.current_location == other.current_location and self.dropped_so_far == other.dropped_so_far and self.fuel_as_int == other.fuel_as_int
         #raise NotImplemented()  # DONE: remove!
 
     def __hash__(self):
@@ -56,7 +56,7 @@ class RelaxedDeliveriesState(GraphProblemState):
                 Otherwise the upper requirement would not met.
                 In our case, use `fuel_as_int`.
         """
-        return hash((self.current_location, self.dropped_so_far, self.fuel_as_int()))
+        return hash((self.current_location, self.dropped_so_far, self.fuel_as_int))
         #raise NotImplemented()  # DONE: remove!
 
     def __str__(self):
@@ -100,7 +100,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
         for v in self.possible_stop_points - state_to_expand.dropped_so_far:
             operator_cost = state_to_expand.current_location.calc_air_distance_from(v)
             successor_state = RelaxedDeliveriesState(v,
-                state_to_expand.dropped_so_far | ({v} if v in self.drop_points else {}),
+                state_to_expand.dropped_so_far | {v} if v in self.drop_points else frozenset(),
                 state_to_expand.fuel_as_int - operator_cost if v not in self.gas_stations else self.gas_tank_capacity)
             # Yield the successor state and the cost of the operator we used to get this successor.
             if successor_state.fuel > 0:

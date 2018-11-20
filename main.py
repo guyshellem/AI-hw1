@@ -28,9 +28,9 @@ def plot_distance_and_expanded_wrt_weight_figure(
 
     fig, ax1 = plt.subplots()
 
-    # TODO: Plot the total distances with ax1. Use `ax1.plot(...)`.
+    # DONE: Plot the total distances with ax1. Use `ax1.plot(...)`.
 
-    # TODO: Make this curve colored blue with solid line style.
+    # DONE: Make this curve colored blue with solid line style.
     ax1.plot(weights, total_distance, 'b-')
 
     # See documentation here:
@@ -46,9 +46,9 @@ def plot_distance_and_expanded_wrt_weight_figure(
     # Create another axis for the #expanded curve.
     ax2 = ax1.twinx()
 
-    # TODO: Plot the total expanded with ax2. Use `ax2.plot(...)`.
-    # TODO: ax2: Make the y-axis label, ticks and tick labels match the line color.
-    # TODO: Make this curve colored red with solid line style.
+    # DONE: Plot the total expanded with ax2. Use `ax2.plot(...)`.
+    # DONE: ax2: Make the y-axis label, ticks and tick labels match the line color.
+    # DONE: Make this curve colored red with solid line style.
     ax2.plot(weights, total_expanded, 'r-')
     ax2.set_ylabel('states expanded', color='r')
     ax2.tick_params('y', colors='r')
@@ -141,6 +141,9 @@ def relaxed_deliveries_problem():
     # Ex.16
     # TODO: create an instance of `AStar` with the `MaxAirDistHeuristic`,
     #       solve the `big_deliveries_prob` with it and print the results (as before).
+    aStar = AStar(MaxAirDistHeuristic)
+    res = aStar.solve_problem(big_deliveries_prob)
+    print(res)
     exit()  # TODO: remove!
 
     # Ex.17
