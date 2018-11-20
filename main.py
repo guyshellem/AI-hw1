@@ -70,6 +70,7 @@ def run_astar_for_weights_in_range(heuristic_type: HeuristicFunctionType, proble
     #    Store these in 2 lists (array for the costs and array for
     #    the #expanded.
     # Call the function `plot_distance_and_expanded_by_weight_figure()`
+
     #  with that data.
 
     cost, expand = [], []

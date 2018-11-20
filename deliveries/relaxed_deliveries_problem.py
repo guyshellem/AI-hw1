@@ -39,21 +39,25 @@ class RelaxedDeliveriesState(GraphProblemState):
         TODO: implement this method!
         Notice: Never compare floats using `==` operator! Use `fuel_as_int` instead of `fuel`.
         """
-        raise NotImplemented()  # TODO: remove!
+        if not isinstance(other, RelaxedDeliveriesState):
+            return False
+        return self.current_location == other.current_location and self.dropped_so_far == other.dropped_so_far and self.fuel_as_int() == other.fuel_as_int()
+        #raise NotImplemented()  # DONE: remove!
 
     def __hash__(self):
         """
         This method is used to create a hash of a state.
         It is critical that two objects representing the same state would have the same hash!
 
-        TODO: implement this method!
+        DONE: implement this method!
         A common implementation might be something in the format of:
         >>> return hash((self.some_field1, self.some_field2, self.some_field3))
         Notice: Do NOT give float fields to `hash(...)`.
                 Otherwise the upper requirement would not met.
                 In our case, use `fuel_as_int`.
         """
-        raise NotImplemented()  # TODO: remove!
+        return hash((self.current_location, self.dropped_so_far, self.fuel_as_int()))
+        #raise NotImplemented()  # DONE: remove!
 
     def __str__(self):
         """
@@ -93,7 +97,14 @@ class RelaxedDeliveriesProblem(GraphProblem):
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        junction = state_to_expand.current_location
+        for link in junction:
+            successor_state = RelaxedDeliveriesState(link.target, )
+            operator_cost = self.possible_stop_points[link.source].calc_air_distance_from((self.possible_stop_points[link.target]))
+            # Yield the successor state and the cost of the operator we used to get this successor.
+            yield successor_state, operator_cost
+
+        #raise NotImplemented()  # DONE: remove!
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
