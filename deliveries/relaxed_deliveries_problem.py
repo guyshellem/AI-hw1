@@ -114,7 +114,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
         TODO: implement this method!
         """
         assert isinstance(state, RelaxedDeliveriesState)
-        return self.drop_points - state.dropped_so_far == {}
+        return len(self.drop_points - state.dropped_so_far) == 0
         # raise NotImplemented()  # DONE: remove!
 
     def solution_additional_str(self, result: 'SearchResult') -> str:
