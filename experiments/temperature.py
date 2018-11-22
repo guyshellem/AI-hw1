@@ -5,17 +5,20 @@ X = np.array([400, 450, 900, 390, 550])
 
 # TODO: Write the code as explained in the instructions
 
-alpha = min(X)
-prob = []
-T = list(map(lambda x: 0.01+x*(4.99/100), range(101)))
-for t in T:
-    sum_of_prob = sum(list(map(lambda x: (x/alpha)**(-1/t), X)))
-    prob += [np.array(list(map(lambda x: ((x/alpha)**(-1/t))/sum_of_prob, X)))]
-P = np.array(prob)
+def temp(x_vec) :
+    alpha = min(x_vec)
+    prob = []
+    T = list(map(lambda x: 0.01+x*(4.99/100), range(101)))
+    for t in T:
+        sum_of_prob = sum(list(map(lambda x: (x/alpha)**(-1/t), x_vec)))
+        prob += [np.array(list(map(lambda x: ((x/alpha)**(-1/t))/sum_of_prob, x_vec)))]
+    return np.array(prob)
+
+P = temp(X)
 
 
 
-#raise NotImplemented()  # TODO: remove!
+#raise NotImplemented()  # DONE: remove!
 
 print(P)
 
