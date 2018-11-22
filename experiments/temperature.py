@@ -10,7 +10,7 @@ prob = []
 T = list(map(lambda x: 0.01+x*(4.99/100), range(101)))
 for t in T:
     sum_of_prob = sum(list(map(lambda x: (x/alpha)**(-1/t), X)))
-    prob += [np.array(list(map(lambda x: round(((x/alpha)**(-1/t))/sum_of_prob, 2), X)))]
+    prob += [np.array(list(map(lambda x: ((x/alpha)**(-1/t))/sum_of_prob, X)))]
 P = np.array(prob)
 
 
