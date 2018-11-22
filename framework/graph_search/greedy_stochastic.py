@@ -2,6 +2,8 @@ from .graph_problem_interface import *
 from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
+# TODO: check if the import is ok
+from experiments.temperature import temp
 
 
 class GreedyStochastic(BestFirstSearch):
@@ -50,5 +52,15 @@ class GreedyStochastic(BestFirstSearch):
                 of these popped items. The other items have to be
                 pushed again into that queue.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        if len(self.open) == 0:
+            return None
+        options_to_expand = []
+        list_size = min(len(self.open), self.N)
+        for i in range(list_size):
+            options_to_expand += [self.open.pop_next_node()]
+        p = temp(map(self._calc_node_expanding_priority, options_to_expand))
+        index_to_expand = np.random.choice(list_size, 1, p)
+        for i in filter(lambda x: x != index_to_expand, list(range(list_size))):
+            self.open.push_node(options_to_expand[i])
+        return options_to_expand[index_to_expand]
+        # raise NotImplemented()  # DONE: remove!
