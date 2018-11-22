@@ -180,6 +180,27 @@ def relaxed_deliveries_problem():
     #    (x-axis). Of course that the costs of A*, and deterministic
     #    greedy are not dependent with the iteration number, so
     #    these two should be represented by horizontal lines.
+
+    costs = []
+    stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
+    # TODO: change to 100
+    k=10
+    for i in range(k):
+        res = stochastic_greedy.solve_problem(big_deliveries_prob)
+        costs += [res.final_search_node.cost]
+
+    # graph
+    plt.plot(range(k), costs)
+
+    plt.xlabel("cost")
+    plt.ylabel("i")
+    plt.title("cost as a function of the iterator num")
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+
+
     exit()  # TODO: remove!
 
 

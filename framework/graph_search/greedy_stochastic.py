@@ -24,25 +24,27 @@ class GreedyStochastic(BestFirstSearch):
 
     def _open_successor_node(self, problem: GraphProblem, successor_node: SearchNode):
         """
-        TODO: implement this method!
+        DONE: implement this method!
         """
+        if not (self.open.has_state(successor_node.state) or self.close.has_state(successor_node.state)):
+            self.open.push_node(successor_node)
 
-        raise NotImplemented()  # TODO: remove!
+        #raise NotImplemented()  # DONE: remove!
 
     def _calc_node_expanding_priority(self, search_node: SearchNode) -> float:
         """
-        TODO: implement this method!
+        DONE: implement this method!
         Remember: `GreedyStochastic` is greedy.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        return self.heuristic_function.estimate(search_node.state)
+        #raise NotImplemented()  # DONE: remove!
 
     def _extract_next_search_node_to_expand(self) -> Optional[SearchNode]:
         """
         Extracts the next node to expand from the open queue,
          using the stochastic method to choose out of the N
          best items from open.
-        TODO: implement this method!
+        DONE: implement this method!
         Use `np.random.choice(...)` whenever you need to randomly choose
          an item from an array of items given a probabilities array `p`.
         You can read the documentation of `np.random.choice(...)` and
@@ -58,9 +60,10 @@ class GreedyStochastic(BestFirstSearch):
         list_size = min(len(self.open), self.N)
         for i in range(list_size):
             options_to_expand += [self.open.pop_next_node()]
-        p = temp(map(self._calc_node_expanding_priority, options_to_expand))
+        p = temp(map(self._calc_node_expanding_priority, options_to_expand), )
         index_to_expand = np.random.choice(list_size, 1, p)
         for i in filter(lambda x: x != index_to_expand, list(range(list_size))):
             self.open.push_node(options_to_expand[i])
+        self.T *= self.T_scale_factor
         return options_to_expand[index_to_expand]
         # raise NotImplemented()  # DONE: remove!
