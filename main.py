@@ -138,62 +138,62 @@ def relaxed_deliveries_problem():
     big_delivery = DeliveriesProblemInput.load_from_file('big_delivery.in', roads)
     big_deliveries_prob = RelaxedDeliveriesProblem(big_delivery)
 
-    # Ex.16
-    # DONE: create an instance of `AStar` with the `MaxAirDistHeuristic`,
-    #       solve the `big_deliveries_prob` with it and print the results (as before).
-    aStar = AStar(MaxAirDistHeuristic)
-    res = aStar.solve_problem(big_deliveries_prob)
-    print(res)
-    #exit()  # DONE: remove!
-
-    # Ex.17
-    # DONE: create an instance of `AStar` with the `MSTAirDistHeuristic`,
-    #       solve the `big_deliveries_prob` with it and print the results (as before).
-    aStar = AStar(MSTAirDistHeuristic)
-    res = aStar.solve_problem(big_deliveries_prob)
-    print(res)
-    #exit()  # DONE: remove!
-
-    # Ex.18
-    # DONE: Call here the function `run_astar_for_weights_in_range()`
-    #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
-    run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
-    #exit()  # DONE: remove!
-
-    # Ex.24
-    # TODO:
-    # 1. Run the stochastic greedy algorithm for 100 times.
-    #    For each run, store the cost of the found solution.
-    #    Store these costs in a list.
-    # 2. The "Anytime Greedy Stochastic Algorithm" runs the greedy
-    #    greedy stochastic for N times, and after each iteration
-    #    stores the best solution found so far. It means that after
-    #    iteration #i, the cost of the solution found by the anytime
-    #    algorithm is the MINIMUM among the costs of the solutions
-    #    found in iterations {1,...,i}. Calculate the costs of the
-    #    anytime algorithm wrt the #iteration and store them in a list.
-    # 3. Calculate and store the cost of the solution received by
-    #    the A* algorithm (with w=0.5).
-    # 4. Calculate and store the cost of the solution received by
-    #    the deterministic greedy algorithm (A* with w=1).
-    # 5. Plot a figure with the costs (y-axis) wrt the #iteration
-    #    (x-axis). Of course that the costs of A*, and deterministic
-    #    greedy are not dependent with the iteration number, so
-    #    these two should be represented by horizontal lines.
+    # # Ex.16
+    # # DONE: create an instance of `AStar` with the `MaxAirDistHeuristic`,
+    # #       solve the `big_deliveries_prob` with it and print the results (as before).
+    # aStar = AStar(MaxAirDistHeuristic)
+    # res = aStar.solve_problem(big_deliveries_prob)
+    # print(res)
+    # #exit()  # DONE: remove!
+    #
+    # # Ex.17
+    # # DONE: create an instance of `AStar` with the `MSTAirDistHeuristic`,
+    # #       solve the `big_deliveries_prob` with it and print the results (as before).
+    # aStar = AStar(MSTAirDistHeuristic)
+    # res = aStar.solve_problem(big_deliveries_prob)
+    # print(res)
+    # #exit()  # DONE: remove!
+    #
+    # # Ex.18
+    # # DONE: Call here the function `run_astar_for_weights_in_range()`
+    # #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
+    # run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
+    # #exit()  # DONE: remove!
+    #
+    # # Ex.24
+    # # TODO:
+    # # 1. Run the stochastic greedy algorithm for 100 times.
+    # #    For each run, store the cost of the found solution.
+    # #    Store these costs in a list.
+    # # 2. The "Anytime Greedy Stochastic Algorithm" runs the greedy
+    # #    greedy stochastic for N times, and after each iteration
+    # #    stores the best solution found so far. It means that after
+    # #    iteration #i, the cost of the solution found by the anytime
+    # #    algorithm is the MINIMUM among the costs of the solutions
+    # #    found in iterations {1,...,i}. Calculate the costs of the
+    # #    anytime algorithm wrt the #iteration and store them in a list.
+    # # 3. Calculate and store the cost of the solution received by
+    # #    the A* algorithm (with w=0.5).
+    # # 4. Calculate and store the cost of the solution received by
+    # #    the deterministic greedy algorithm (A* with w=1).
+    # # 5. Plot a figure with the costs (y-axis) wrt the #iteration
+    # #    (x-axis). Of course that the costs of A*, and deterministic
+    # #    greedy are not dependent with the iteration number, so
+    # #    these two should be represented by horizontal lines.
 
     costs = []
     stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
     # TODO: change to 100
-    k=10
+    k=100
     for i in range(k):
         res = stochastic_greedy.solve_problem(big_deliveries_prob)
         costs += [res.final_search_node.cost]
 
     # graph
-    plt.plot(range(k), costs)
+    plt.plot(range(k), [min(costs[:i + 1]) for i in range(k)])
 
-    plt.xlabel("cost")
-    plt.ylabel("i")
+    plt.xlabel("i")
+    plt.ylabel("cost")
     plt.title("cost as a function of the iterator num")
     plt.legend()
     plt.grid()
@@ -224,7 +224,7 @@ def strict_deliveries_problem():
 
 
 def main():
-    map_problem()
+    # map_problem()
     relaxed_deliveries_problem()
     strict_deliveries_problem()
 
