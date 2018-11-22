@@ -55,21 +55,22 @@ class GreedyStochastic(BestFirstSearch):
                 pushed again into that queue.
         """
 
-        def temp(x_vec, t):
-            alpha = min(x_vec)
-            sum_of_prob = sum(list(map(lambda x: (x / alpha) ** (-1 / t), x_vec)))
-            return np.array(list(map(lambda x: ((x / alpha) ** (-1 / t)) / sum_of_prob, x_vec)))
-
         if len(self.open) == 0:
             return None
         options_to_expand = []
         list_size = min(len(self.open), self.N)
+        self.T /= self.T_scale_factor
         for i in range(list_size):
             options_to_expand += [self.open.pop_next_node()]
-        p = temp(map(self._calc_node_expanding_priority, options_to_expand), self.T)
+
+        x_vec = map(self._calc_node_expanding_priority, options_to_expand)
+        alpha = min(x_vec)
+        sum_of_prob = sum(list(map(lambda x: (x / alpha) ** (-1 / self.T), x_vec)))
+        p = np.array(list(map(lambda x: ((x / alpha) ** (-1 / self.T)) / sum_of_prob, x_vec)))
+
         index_to_expand = np.random.choice(list_size, 1, p)[0]
         for i in filter(lambda x: x != index_to_expand, list(range(list_size))):
             self.open.push_node(options_to_expand[i])
-        self.T *= self.T_scale_factor
+
         return options_to_expand[index_to_expand]
         # raise NotImplemented()  # DONE: remove!

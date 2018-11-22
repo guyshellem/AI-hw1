@@ -181,23 +181,32 @@ def relaxed_deliveries_problem():
     # #    greedy are not dependent with the iteration number, so
     # #    these two should be represented by horizontal lines.
 
+    fig, ax_greedy = plt.subplots()
+
     costs = []
     stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
     # TODO: change to 100
-    k=100
+    k=12
     for i in range(k):
         res = stochastic_greedy.solve_problem(big_deliveries_prob)
         costs += [res.final_search_node.cost]
 
+    print(costs)
     # graph
-    plt.plot(range(k), [min(costs[:i + 1]) for i in range(k)])
+    ax_greedy.plot(range(1,k+1), costs, 'b-')
 
-    plt.xlabel("i")
-    plt.ylabel("cost")
-    plt.title("cost as a function of the iterator num")
-    plt.legend()
-    plt.grid()
+    ax_greedy.set_xlabel("i")
+    ax_greedy.set_ylabel("cost")
+    # ax_greedy.title("cost as a function of the iterator num")
+    # ax_greedy.legend()
+    ax_greedy.grid()
+    # ax_greedy.show()
+
+    ax2 = ax_greedy.twinx()
+    ax2.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-')
+    fig.tight_layout()
     plt.show()
+
 
 
 
