@@ -5,25 +5,23 @@ X = np.array([400, 450, 900, 390, 550])
 
 # TODO: Write the code as explained in the instructions
 
-def temp(x_vec) :
+def temp(x_vec, t) :
     alpha = min(x_vec)
-    prob = []
-    T = list(map(lambda x: 0.01+x*(4.99/100), range(101)))
-    for t in T:
-        sum_of_prob = sum(list(map(lambda x: (x/alpha)**(-1/t), x_vec)))
-        prob += [np.array(list(map(lambda x: ((x/alpha)**(-1/t))/sum_of_prob, x_vec)))]
-    return np.array(prob)
+    sum_of_prob = sum(list(map(lambda x: (x/alpha)**(-1/t), x_vec)))
+    return np.array(list(map(lambda x: ((x/alpha)**(-1/t))/sum_of_prob, x_vec)))
 
-P = temp(X)
-
-
+T2 = list(map(lambda x: 0.01+x*(4.99/100), range(101)))
+prob = []
+for t2 in T2:
+    prob += [temp(X, t2)]
+P = np.array(prob)
 
 #raise NotImplemented()  # DONE: remove!
 
 print(P)
 
 for i in range(len(X)):
-    plt.plot(T, P[:, i], label=str(X[i]))
+    plt.plot(T2, P[:, i], label=str(X[i]))
 
 plt.xlabel("T")
 plt.ylabel("P")
