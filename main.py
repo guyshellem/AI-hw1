@@ -181,11 +181,12 @@ def relaxed_deliveries_problem():
     #    these two should be represented by horizontal lines.
 
     costs = []
-    stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
+    # stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
     # TODO: change to 100
+    # TODO: should we do this? was on facebook
     k = 100
     for i in range(k):
-        costs += [stochastic_greedy.solve_problem(big_deliveries_prob).final_search_node.cost]
+        costs += [GreedyStochastic(MSTAirDistHeuristic).solve_problem(big_deliveries_prob).final_search_node.cost]
 
     print(costs)
 
