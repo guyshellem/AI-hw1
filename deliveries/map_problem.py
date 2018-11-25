@@ -63,7 +63,6 @@ class MapProblem(GraphProblem):
             #operator_cost = 1  # DONE: modify this!
             operator_cost = self.roads[link.source].calc_air_distance_from((self.roads[link.target]))
 
-
             # Yield the successor state and the cost of the operator we used to get this successor.
             yield successor_state, operator_cost
 

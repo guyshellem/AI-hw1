@@ -2,8 +2,6 @@ from .graph_problem_interface import *
 from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
-# TODO: check if the import is ok
-# from experiments.temperature import temp
 
 
 class GreedyStochastic(BestFirstSearch):
@@ -59,18 +57,19 @@ class GreedyStochastic(BestFirstSearch):
             return None
         options_to_expand = []
         list_size = min(len(self.open), self.N)
-        self.T /= self.T_scale_factor
         for i in range(list_size):
             options_to_expand += [self.open.pop_next_node()]
 
         x_vec = map(self._calc_node_expanding_priority, options_to_expand)
         alpha = min(x_vec)
+        # if alpha == 0:
+        #     return options_to_expand[]
         sum_of_prob = sum(list(map(lambda x: (x / alpha) ** (-1 / self.T), x_vec)))
         p = np.array(list(map(lambda x: ((x / alpha) ** (-1 / self.T)) / sum_of_prob, x_vec)))
 
         index_to_expand = np.random.choice(list_size, 1, p)[0]
         for i in filter(lambda x: x != index_to_expand, list(range(list_size))):
             self.open.push_node(options_to_expand[i])
-
+        self.T /= self.T_scale_factor
         return options_to_expand[index_to_expand]
         # raise NotImplemented()  # DONE: remove!

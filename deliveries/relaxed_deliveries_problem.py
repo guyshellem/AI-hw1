@@ -36,7 +36,7 @@ class RelaxedDeliveriesState(GraphProblemState):
         """
         This method is used to determine whether two given state objects represents the same state.
 
-        TODO: implement this method!
+        DONE: implement this method!
         Notice: Never compare floats using `==` operator! Use `fuel_as_int` instead of `fuel`.
         """
         if not isinstance(other, RelaxedDeliveriesState):
@@ -87,7 +87,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
 
     def expand_state_with_costs(self, state_to_expand: GraphProblemState) -> Iterator[Tuple[GraphProblemState, float]]:
         """
-        TODO: implement this method!
+        DONE: implement this method!
         This method represents the `Succ: S -> P(S)` function of the relaxed deliveries problem.
         The `Succ` function is defined by the problem operators as shown in class.
         The relaxed problem operators are defined in the assignment instructions.
@@ -111,7 +111,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
     def is_goal(self, state: GraphProblemState) -> bool:
         """
         This method receives a state and returns whether this state is a goal.
-        TODO: implement this method!
+        DONE: implement this method!
         """
         assert isinstance(state, RelaxedDeliveriesState)
         return len(self.drop_points - state.dropped_so_far) == 0

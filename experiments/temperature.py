@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 X = np.array([400, 450, 900, 390, 550])
 
-# TODO: Write the code as explained in the instructions
+# DONE: Write the code as explained in the instructions
 
 def temp(x_vec, t) :
     alpha = min(x_vec)

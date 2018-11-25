@@ -122,9 +122,8 @@ def map_problem():
     #    (upper in this file).
     # 3. Call here the function `run_astar_for_weights_in_range()`
     #    with `AirDistHeuristic` and `map_prob`.
-    run_astar_for_weights_in_range(AirDistHeuristic, map_prob)
     #exit()  # DONE: remove!
-
+    run_astar_for_weights_in_range(AirDistHeuristic, map_prob)
 
 # --------------------------------------------------------------------
 # ----------------------- Deliveries Problem -------------------------
@@ -138,74 +137,99 @@ def relaxed_deliveries_problem():
     big_delivery = DeliveriesProblemInput.load_from_file('big_delivery.in', roads)
     big_deliveries_prob = RelaxedDeliveriesProblem(big_delivery)
 
-    # # Ex.16
-    # # DONE: create an instance of `AStar` with the `MaxAirDistHeuristic`,
-    # #       solve the `big_deliveries_prob` with it and print the results (as before).
-    # aStar = AStar(MaxAirDistHeuristic)
-    # res = aStar.solve_problem(big_deliveries_prob)
-    # print(res)
-    # #exit()  # DONE: remove!
-    #
-    # # Ex.17
-    # # DONE: create an instance of `AStar` with the `MSTAirDistHeuristic`,
-    # #       solve the `big_deliveries_prob` with it and print the results (as before).
-    # aStar = AStar(MSTAirDistHeuristic)
-    # res = aStar.solve_problem(big_deliveries_prob)
-    # print(res)
-    # #exit()  # DONE: remove!
-    #
-    # # Ex.18
-    # # DONE: Call here the function `run_astar_for_weights_in_range()`
-    # #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
-    # run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
-    # #exit()  # DONE: remove!
-    #
-    # # Ex.24
-    # # TODO:
-    # # 1. Run the stochastic greedy algorithm for 100 times.
-    # #    For each run, store the cost of the found solution.
-    # #    Store these costs in a list.
-    # # 2. The "Anytime Greedy Stochastic Algorithm" runs the greedy
-    # #    greedy stochastic for N times, and after each iteration
-    # #    stores the best solution found so far. It means that after
-    # #    iteration #i, the cost of the solution found by the anytime
-    # #    algorithm is the MINIMUM among the costs of the solutions
-    # #    found in iterations {1,...,i}. Calculate the costs of the
-    # #    anytime algorithm wrt the #iteration and store them in a list.
-    # # 3. Calculate and store the cost of the solution received by
-    # #    the A* algorithm (with w=0.5).
-    # # 4. Calculate and store the cost of the solution received by
-    # #    the deterministic greedy algorithm (A* with w=1).
-    # # 5. Plot a figure with the costs (y-axis) wrt the #iteration
-    # #    (x-axis). Of course that the costs of A*, and deterministic
-    # #    greedy are not dependent with the iteration number, so
-    # #    these two should be represented by horizontal lines.
+    # Ex.16
+    # DONE: create an instance of `AStar` with the `MaxAirDistHeuristic`,
+    #       solve the `big_deliveries_prob` with it and print the results (as before).
+    aStar = AStar(MaxAirDistHeuristic)
+    res = aStar.solve_problem(big_deliveries_prob)
+    print(res)
+    #exit()  # DONE: remove!
 
-    fig, ax_greedy = plt.subplots()
+    # Ex.17
+    # DONE: create an instance of `AStar` with the `MSTAirDistHeuristic`,
+    #       solve the `big_deliveries_prob` with it and print the results (as before).
+    aStar = AStar(MSTAirDistHeuristic)
+    res = aStar.solve_problem(big_deliveries_prob)
+    print(res)
+    #exit()  # DONE: remove!
+
+    # Ex.18
+    # DONE: Call here the function `run_astar_for_weights_in_range()`
+    #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
+    run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
+    #exit()  # DONE: remove!
+
+    # Ex.24
+    # TODO:
+    # 1. Run the stochastic greedy algorithm for 100 times.
+    #    For each run, store the cost of the found solution.
+    #    Store these costs in a list.
+    # 2. The "Anytime Greedy Stochastic Algorithm" runs the greedy
+    #    greedy stochastic for N times, and after each iteration
+    #    stores the best solution found so far. It means that after
+    #    iteration #i, the cost of the solution found by the anytime
+    #    algorithm is the MINIMUM among the costs of the solutions
+    #    found in iterations {1,...,i}. Calculate the costs of the
+    #    anytime algorithm wrt the #iteration and store them in a list.
+    # 3. Calculate and store the cost of the solution received by
+    #    the A* algorithm (with w=0.5).
+    # 4. Calculate and store the cost of the solution received by
+    #    the deterministic greedy algorithm (A* with w=1).
+    # 5. Plot a figure with the costs (y-axis) wrt the #iteration
+    #    (x-axis). Of course that the costs of A*, and deterministic
+    #    greedy are not dependent with the iteration number, so
+    #    these two should be represented by horizontal lines.
 
     costs = []
     stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
     # TODO: change to 100
-    k=12
+    k = 40
     for i in range(k):
-        res = stochastic_greedy.solve_problem(big_deliveries_prob)
-        costs += [res.final_search_node.cost]
+        costs += [stochastic_greedy.solve_problem(big_deliveries_prob).final_search_node.cost]
 
     print(costs)
+
     # graph
-    ax_greedy.plot(range(1,k+1), costs, 'b-')
+    fig, ax = plt.subplots()
+    ax.plot(range(1,k+1), costs, 'b-', marker='o', label='costs')
+    ax.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-', marker='o', label='min_costs')
 
-    ax_greedy.set_xlabel("i")
-    ax_greedy.set_ylabel("cost")
-    # ax_greedy.title("cost as a function of the iterator num")
-    # ax_greedy.legend()
-    ax_greedy.grid()
-    # ax_greedy.show()
+    aStar_cost = res.final_search_node.cost
+    greedy_best = AStar(MSTAirDistHeuristic, 1)
+    greedy_best_cost = greedy_best.solve_problem(big_deliveries_prob).final_search_node.cost
 
-    ax2 = ax_greedy.twinx()
-    ax2.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-')
-    fig.tight_layout()
+    ax.plot(range(1,k+1), [aStar_cost for i in range(k)], 'g-', marker='o', label='Astar (w=0.5)')
+    ax.plot(range(1,k+1), [greedy_best_cost for i in range(k)], 'k-', marker='o', label='Greedy best (Astar with w=0.5)')
+    ax.legend(loc='upper right')
+
+    # ax.plot()
+
+    plt.xlabel("k")
+    plt.ylabel("cost")
+    plt.title("cost as a function of the iterator num")
+    # plt.legend(loc='upper right')
+    plt.grid()
     plt.show()
+
+
+
+
+
+    # ax_greedy.plot(range(1,k+1), costs, 'b-')
+    # ax_greedy.set_xlabel("k")
+    # ax_greedy.set_ylabel("cost")
+    # # ax_greedy.title("cost as a function of the iterator num")
+    #
+    # # ax_greedy.legend()
+    # ax_greedy.grid()
+    # # ax_greedy.show()
+    #
+    # ax2 = ax_greedy.twinx()
+    # ax2.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-')
+    # ax2.set_ylabel("anytime")
+    # # ax2.title("min cost as a function of the iterator num")
+    # fig.tight_layout()
+    # plt.show()
 
 
 
