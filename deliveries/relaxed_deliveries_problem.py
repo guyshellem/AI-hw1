@@ -99,11 +99,11 @@ class RelaxedDeliveriesProblem(GraphProblem):
 
         for v in self.possible_stop_points - state_to_expand.dropped_so_far:
             operator_cost = state_to_expand.current_location.calc_air_distance_from(v)
-            successor_state = RelaxedDeliveriesState(v,
-                state_to_expand.dropped_so_far | {v} if v in self.drop_points else frozenset(),
+            if state_to_expand.fuel - operator_cost >= 0:
+                successor_state = RelaxedDeliveriesState(v,
+                state_to_expand.dropped_so_far | ({v} if v in self.drop_points else frozenset()),
                 state_to_expand.fuel_as_int - operator_cost if v not in self.gas_stations else self.gas_tank_capacity)
             # Yield the successor state and the cost of the operator we used to get this successor.
-            if successor_state.fuel > 0:
                 yield successor_state, operator_cost
 
         #raise NotImplemented()  # DONE: remove

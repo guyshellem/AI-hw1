@@ -183,7 +183,7 @@ def relaxed_deliveries_problem():
     costs = []
     stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
     # TODO: change to 100
-    k = 40
+    k = 100
     for i in range(k):
         costs += [stochastic_greedy.solve_problem(big_deliveries_prob).final_search_node.cost]
 
@@ -191,47 +191,22 @@ def relaxed_deliveries_problem():
 
     # graph
     fig, ax = plt.subplots()
-    ax.plot(range(1,k+1), costs, 'b-', marker='o', label='costs')
-    ax.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-', marker='o', label='min_costs')
+    ax.plot(range(1,k+1), costs, 'b-', label='individual costs')
+    ax.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-', label='Anytime Greedy')
 
     aStar_cost = res.final_search_node.cost
     greedy_best = AStar(MSTAirDistHeuristic, 1)
     greedy_best_cost = greedy_best.solve_problem(big_deliveries_prob).final_search_node.cost
 
-    ax.plot(range(1,k+1), [aStar_cost for i in range(k)], 'g-', marker='o', label='Astar (w=0.5)')
-    ax.plot(range(1,k+1), [greedy_best_cost for i in range(k)], 'k-', marker='o', label='Greedy best (Astar with w=0.5)')
+    ax.plot(range(1,k+1), [aStar_cost for i in range(k)], 'g-', label='A Star')
+    ax.plot(range(1,k+1), [greedy_best_cost for i in range(k)], 'k-', label='Greedy best')
     ax.legend(loc='upper right')
 
-    # ax.plot()
-
     plt.xlabel("k")
-    plt.ylabel("cost")
-    plt.title("cost as a function of the iterator num")
-    # plt.legend(loc='upper right')
+    plt.ylabel("Cost")
+    plt.title("Cost as a function of the iteration num")
     plt.grid()
     plt.show()
-
-
-
-
-
-    # ax_greedy.plot(range(1,k+1), costs, 'b-')
-    # ax_greedy.set_xlabel("k")
-    # ax_greedy.set_ylabel("cost")
-    # # ax_greedy.title("cost as a function of the iterator num")
-    #
-    # # ax_greedy.legend()
-    # ax_greedy.grid()
-    # # ax_greedy.show()
-    #
-    # ax2 = ax_greedy.twinx()
-    # ax2.plot(range(1,k+1), [min(costs[:i + 1]) for i in range(k)], 'r-')
-    # ax2.set_ylabel("anytime")
-    # # ax2.title("min cost as a function of the iterator num")
-    # fig.tight_layout()
-    # plt.show()
-
-
 
 
     exit()  # TODO: remove!
@@ -248,6 +223,7 @@ def strict_deliveries_problem():
     # Ex.26
     # TODO: Call here the function `run_astar_for_weights_in_range()`
     #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
+    run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
     exit()  # TODO: remove!
 
     # Ex.28
@@ -258,7 +234,7 @@ def strict_deliveries_problem():
 
 def main():
     # map_problem()
-    relaxed_deliveries_problem()
+    #relaxed_deliveries_problem()
     strict_deliveries_problem()
 
 

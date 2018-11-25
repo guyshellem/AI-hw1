@@ -59,11 +59,10 @@ class GreedyStochastic(BestFirstSearch):
         list_size = min(len(self.open), self.N)
         for i in range(list_size):
             options_to_expand += [self.open.pop_next_node()]
-
+            if i == 0 and self._calc_node_expanding_priority(options_to_expand[0]) == 0:
+                return options_to_expand[0]
         x_vec = map(self._calc_node_expanding_priority, options_to_expand)
         alpha = min(x_vec)
-        # if alpha == 0:
-        #     return options_to_expand[]
         sum_of_prob = sum(list(map(lambda x: (x / alpha) ** (-1 / self.T), x_vec)))
         p = np.array(list(map(lambda x: ((x / alpha) ** (-1 / self.T)) / sum_of_prob, x_vec)))
 
