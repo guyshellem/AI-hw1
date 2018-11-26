@@ -16,7 +16,7 @@ class StrictDeliveriesState(RelaxedDeliveriesState):
     This state is basically similar to the state of the relaxed
      problem. Hence, this class inherits from `RelaxedDeliveriesState`.
 
-    TODO:
+    DONE:
         If you believe you need to modify the state for the strict
          problem in some sense, please go ahead and do so.
     """
@@ -95,7 +95,5 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         DONE: implement this method!
         """
         assert isinstance(state, StrictDeliveriesState)
-        # TODO: remove print
-        # print(self.nr_cache_hits)
         return len(self.drop_points - state.dropped_so_far) == 0
         #raise NotImplemented()  # DONE: remove!

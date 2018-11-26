@@ -80,9 +80,6 @@ def run_astar_for_weights_in_range(heuristic_type: HeuristicFunctionType, proble
         res = aStar.solve_problem(problem)
         cost += [res.final_search_node.cost]
         expand += [res.nr_expanded_states]
-        print(res, i)
-        #TODO: delet print
-
 
     plot_distance_and_expanded_wrt_weight_figure(list(map(lambda x: 0.5+x/40, range(21))), cost, expand)
 
@@ -185,9 +182,6 @@ def relaxed_deliveries_problem():
     #    these two should be represented by horizontal lines.
 
     costs = []
-    # stochastic_greedy = GreedyStochastic(MSTAirDistHeuristic)
-    # TODO: change to 100
-    # TODO: should we do this? was on facebook
     k = 100
     for i in range(k):
         costs += [GreedyStochastic(MSTAirDistHeuristic).solve_problem(big_deliveries_prob).final_search_node.cost]
@@ -243,8 +237,8 @@ def strict_deliveries_problem():
 
 
 def main():
-    # map_problem()
-    # relaxed_deliveries_problem()
+    map_problem()
+    relaxed_deliveries_problem()
     strict_deliveries_problem()
 
 
