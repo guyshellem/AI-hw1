@@ -71,11 +71,22 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
         """
         Solve the appropriate relaxed problem in order to
          evaluate the distance to the goal.
-        TODO: implement this method!
+        DONE: implement this method!
         """
 
         assert isinstance(self.problem, StrictDeliveriesProblem)
         assert isinstance(state, StrictDeliveriesState)
+        # assert isinstance(self.problem.inner_problem_solver.)
 
-        raise NotImplemented()  # TODO: remove!
+        if self.problem.is_goal(state):
+            return 0
+        delivery = DeliveriesProblemInput('problem input', state.current_location, self.problem.drop_points-state.dropped_so_far,
+                                          self.problem.gas_stations, self.problem.gas_tank_capacity, state.fuel)
+        prob = RelaxedDeliveriesProblem(delivery)
+        aStar = AStar(MSTAirDistHeuristic)
+        res = aStar.solve_problem(prob)
+        if res.final_search_node is not None:
+            return res.final_search_node.cost
+        return  np.inf
+        # raise NotImplemented()  # DONE: remove!
 

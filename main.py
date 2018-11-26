@@ -75,10 +75,14 @@ def run_astar_for_weights_in_range(heuristic_type: HeuristicFunctionType, proble
 
     cost, expand = [], []
     for i in map(lambda x: 0.5+x/40, range(21)):
+
         aStar = AStar(heuristic_type, i)
         res = aStar.solve_problem(problem)
         cost += [res.final_search_node.cost]
         expand += [res.nr_expanded_states]
+        print(res, i)
+        #TODO: delet print
+
 
     plot_distance_and_expanded_wrt_weight_figure(list(map(lambda x: 0.5+x/40, range(21))), cost, expand)
 
@@ -160,7 +164,7 @@ def relaxed_deliveries_problem():
     #exit()  # DONE: remove!
 
     # Ex.24
-    # TODO:
+    # DONE:
     # 1. Run the stochastic greedy algorithm for 100 times.
     #    For each run, store the cost of the found solution.
     #    Store these costs in a list.
@@ -209,7 +213,7 @@ def relaxed_deliveries_problem():
     plt.show()
 
 
-    exit()  # TODO: remove!
+    # exit()  # DONE: remove!
 
 
 def strict_deliveries_problem():
@@ -221,20 +225,25 @@ def strict_deliveries_problem():
         small_delivery, roads, inner_problem_solver=AStar(AirDistHeuristic))
 
     # Ex.26
-    # TODO: Call here the function `run_astar_for_weights_in_range()`
+    # DONE: Call here the function `run_astar_for_weights_in_range()`
     #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
     run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
-    exit()  # TODO: remove!
+    # exit()  # DONE: remove!
 
     # Ex.28
-    # TODO: create an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
+    # DONE: create an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
     #       solve the `small_deliveries_strict_problem` with it and print the results (as before).
-    exit()  # TODO: remove!
+    aStar = AStar(RelaxedDeliveriesHeuristic)
+    small_deliveries_strict_problem_relaxed = StrictDeliveriesProblem(
+        small_delivery, roads, inner_problem_solver=AStar(AirDistHeuristic))
+    res = aStar.solve_problem(small_deliveries_strict_problem_relaxed)
+    print(res)
+    # exit()  # DONE: remove!
 
 
 def main():
     # map_problem()
-    #relaxed_deliveries_problem()
+    # relaxed_deliveries_problem()
     strict_deliveries_problem()
 
 
