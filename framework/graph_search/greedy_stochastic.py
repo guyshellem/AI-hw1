@@ -69,6 +69,6 @@ class GreedyStochastic(BestFirstSearch):
         index_to_expand = np.random.choice(list_size, 1, p)[0]
         for i in filter(lambda x: x != index_to_expand, list(range(list_size))):
             self.open.push_node(options_to_expand[i])
-        self.T /= self.T_scale_factor
+        self.T *= self.T_scale_factor
         return options_to_expand[index_to_expand]
         # raise NotImplemented()  # DONE: remove!
